@@ -1,0 +1,4 @@
+---
+# tasks file for go
+
+- include: main-pkg.yml

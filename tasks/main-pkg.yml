@@ -1,0 +1,38 @@
+---
+# tasks file for go
+
+# https://golang.org/doc/install#tarball
+# https://golang.org/dl/
+
+- file: path=/usr/local/go state=absent
+  when: go_uninstall_previous == true
+
+- get_url: url=https://storage.googleapis.com/golang/go{{ go_version }}.linux-amd64.tar.gz mode=0644
+  args:
+    dest: /tmp/go{{ go_version }}.linux-amd64.tar.gz
+#    version 1.4.2
+#    sha256sum: 141b8345932641483c2437bdbd65488a269282ac85f91170805c273f03dd223b
+
+- copy: src=go{{ go_version }}.linux-amd64.tar.gz.sha1 dest=/tmp/go{{ go_version }}.linux-amd64.tar.gz.sha1
+  args:
+    owner: root
+    group: root
+    mode: 0644
+
+- name: checksum sha1
+  shell: sha1sum go{{ go_version }}.linux-amd64.tar.gz.sha1 -c
+  args:
+    chdir: /tmp
+    creates: /usr/local/go
+
+- file: path=/usr/local/go state=directory mode=0644
+
+- unarchive: src=/tmp/go{{ go_version }}.linux-amd64.tar.gz dest=/usr/local/go
+  args:
+    copy: no
+    creates: /usr/local/go
+
+- lineinfile: dest=/etc/profile regexp="^export PATH=\$PATH:\/usr\/local\/go\/bin"
+  args:
+    line: "export PATH=$PATH:/usr/local/go/bin"
+    state: present
