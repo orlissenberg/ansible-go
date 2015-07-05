@@ -3,6 +3,8 @@ Ansible Go Role
 
 Install Go via Ansible.
 
+Will add /usr/local/go/bin to the PATH in /etc/profile and (if available) in /etc/zsh/zlogin.
+
 Requirements
 ------------
 
@@ -18,6 +20,14 @@ If you want to use another version, make sure to add the sha1 checksum file to t
 To uninstall the previous version:
 
     go_uninstall_previous: false
+
+Group of the go directory /usr/local/go
+
+    go_group: staff
+
+Disable/enable package checksum validation:
+
+    go_checksum: True
 
 Dependencies
 ------------
