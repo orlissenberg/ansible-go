@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/orlissenberg/ansible-go.svg)](https://travis-ci.org/orlissenberg/ansible-go)
+
 Ansible Go Role
 =========
 
