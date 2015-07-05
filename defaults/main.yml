@@ -3,3 +3,5 @@
 
 go_version: 1.4.2
 go_uninstall_previous: false
+go_group: staff
+go_checksum: True

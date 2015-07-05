@@ -13,7 +13,9 @@ EOF
 # Create group_vars for the webservers
 mkdir -p $TMP_DIR/group_vars 2> /dev/null
 cat << EOF > $TMP_DIR/group_vars/webservers
-go_uninstall_previous: true
+# go_version: 1.4.1
+# go_checksum: False
+# go_uninstall_previous: true
 EOF
 
 # Create Ansible config
@@ -48,3 +50,4 @@ ansible-playbook $TMP_DIR/playbook.yml -i $TMP_DIR/hosts
  	&& (echo 'Idempotence test: pass' && exit 0) \
  	|| (echo 'Idempotence test: fail' && exit 1)
 
+/usr/local/go/bin/go version
