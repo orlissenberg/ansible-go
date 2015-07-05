@@ -31,7 +31,7 @@ cat << EOF > $TMP_DIR/playbook.yml
 
 - hosts: webservers
   gather_facts: yes
-  sudo: no
+  sudo: yes
 
   roles:
     - ansible-go
