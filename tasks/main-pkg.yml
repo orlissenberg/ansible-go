@@ -46,3 +46,8 @@
   args:
     line: "export PATH=$PATH:/usr/local/go/bin"
     state: present
+
+# http://stackoverflow.com/questions/22256884/not-possible-to-source-bashrc-with-ansible
+- shell: source /etc/profile && go version | grep linux/amd64
+  args:
+    executable: /bin/bash
