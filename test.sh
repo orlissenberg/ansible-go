@@ -13,8 +13,8 @@ EOF
 # Create group_vars for the webservers
 mkdir -p $TMP_DIR/group_vars 2> /dev/null
 cat << EOF > $TMP_DIR/group_vars/webservers
-# go_version: 1.4.1
-# go_checksum: False
+# go_version: 1.7.4
+# go_checksum: true
 # go_uninstall_previous: true
 EOF
 
