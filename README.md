@@ -17,7 +17,7 @@ Role Variables
 
 If you want to use another version, make sure to add the sha1 checksum file to the files folder. 
 
-    go_version: 1.4.2
+    go_version: 1.8.3
 
 To uninstall the previous version:
 
@@ -46,7 +46,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: webservers
       gather_facts: yes
-      sudo: no
+      become: yes
 
       roles:
         - ansible-go

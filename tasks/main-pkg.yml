@@ -11,15 +11,15 @@
   args:
     dest: /tmp/go{{ go_version }}.linux-amd64.tar.gz
 
-- copy: src=go{{ go_version }}.linux-amd64.tar.gz.sha1 dest=/tmp/go{{ go_version }}.linux-amd64.tar.gz.sha1
+- copy: src=go{{ go_version }}.linux-amd64.tar.gz.sha256 dest=/tmp/go{{ go_version }}.linux-amd64.tar.gz.sha256
   when: go_checksum == True
   args:
     owner: root
     group: root
     mode: 0644
 
-- name: checksum sha1
-  shell: sha1sum go{{ go_version }}.linux-amd64.tar.gz.sha1 -c
+- name: checksum sha256
+  shell: sha256sum go{{ go_version }}.linux-amd64.tar.gz.sha256 -c
   when: go_checksum == True
   args:
     chdir: /tmp
