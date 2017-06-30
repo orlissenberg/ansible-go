@@ -32,7 +32,7 @@ EOF
 cat << EOF > $TMP_DIR/ansible.cfg
 [defaults]
 roles_path = $CURRENT_DIR/../
-host_key_checking = False
+host_key_checking = false
 EOF
 
 # Create playbook.yml
