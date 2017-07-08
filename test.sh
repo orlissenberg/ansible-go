@@ -19,11 +19,11 @@ go_checksum: true
 go_uninstall_previous: true
 
 go_install_gnome: true
-go_configure_gnome: true
+go_configure_gnome: false
 go_gnome_users:
   - debian
 
-go_install_atom: false
+go_install_atom: true
 go_atom_users:
   - debian
 EOF

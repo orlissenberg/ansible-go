@@ -7,7 +7,8 @@
   failed_when: go_atom_check_deb.rc > 1
   changed_when: go_atom_check_deb.rc == 1
 
-- get_url: url=https://github.com/atom/atom/releases/download/v{{ go_atom_version }}/atom-amd64.deb mode=0644 validate_certs=False
+- name: Download ATOM archive
+  get_url: url=https://github.com/atom/atom/releases/download/v{{ go_atom_version }}/atom-amd64.deb mode=0644 validate_certs=False
   args:
     dest: "/tmp/atom-{{ go_atom_version }}-amd64.deb"
   when: go_atom_check_deb.rc == 1
@@ -16,7 +17,7 @@
   apt: deb="/tmp/atom-{{ go_atom_version }}-amd64.deb"
   when: go_atom_check_deb.rc == 1
 
-- name: Install Atom packages for
+- name: Install Atom packages
   shell: apm install {{ item }}
   with_items: "{{ go_atom_packages }}"
   become_user: "{{ go_atom_become_user }}"

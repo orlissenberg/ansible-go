@@ -4,50 +4,58 @@
 # https://golang.org/doc/install#tarball
 # https://golang.org/dl/
 
-- file: path=/usr/local/go state=absent
+- name: Remove previous Go installation
+  file: path=/usr/local/go state=absent
   when: go_uninstall_previous == true
 
-- get_url: url=https://storage.googleapis.com/golang/go{{ go_version }}.linux-amd64.tar.gz mode=0644
+- name: Download Go archive
+  get_url: url=https://storage.googleapis.com/golang/go{{ go_version }}.linux-amd64.tar.gz mode=0644
   args:
     dest: /tmp/go{{ go_version }}.linux-amd64.tar.gz
 
-- copy: src=go{{ go_version }}.linux-amd64.tar.gz.sha256 dest=/tmp/go{{ go_version }}.linux-amd64.tar.gz.sha256
+- name: Copy sha256 checksum
+  copy: src=go{{ go_version }}.linux-amd64.tar.gz.sha256 dest=/tmp/go{{ go_version }}.linux-amd64.tar.gz.sha256
   when: go_checksum == True
   args:
     owner: root
     group: root
     mode: 0644
 
-- name: checksum sha256
+- name: Checksum sha256
   shell: sha256sum go{{ go_version }}.linux-amd64.tar.gz.sha256 -c
   when: go_checksum == True
   args:
     chdir: /tmp
     creates: /usr/local/go/bin
 
-- unarchive: src=/tmp/go{{ go_version }}.linux-amd64.tar.gz dest=/usr/local
+- name: Unarchive Go
+  unarchive: src=/tmp/go{{ go_version }}.linux-amd64.tar.gz dest=/usr/local
   args:
     copy: no
     creates: /usr/local/go/bin
     group: "{{ go_group }}"
 
 # Path for BASH
-- lineinfile: dest=/etc/profile regexp="^export PATH=\$PATH:\/usr\/local\/go\/bin"
+- name: Add Go bin patch to Bash
+  lineinfile: dest=/etc/profile regexp="^export PATH=\$PATH:\/usr\/local\/go\/bin"
   args:
     line: "export PATH=$PATH:/usr/local/go/bin"
     state: present
 
 # Path for ZSH (if available)
-- stat: path=/etc/zsh/zlogin
+- name: Check if zsh is installed
+  stat: path=/etc/zsh/zlogin
   register: go_zlogin
 
-- lineinfile: dest=/etc/zsh/zlogin regexp="^export PATH=\$PATH:\/usr\/local\/go\/bin"
+- name: Add Go bin path to Zsh
+  lineinfile: dest=/etc/zsh/zlogin regexp="^export PATH=\$PATH:\/usr\/local\/go\/bin"
   when: go_zlogin.stat.exists == True
   args:
     line: "export PATH=$PATH:/usr/local/go/bin"
     state: present
 
 # http://stackoverflow.com/questions/22256884/not-possible-to-source-bashrc-with-ansible
-- shell: source /etc/profile && go version | grep linux/amd64
+- name: Source new profile
+  shell: source /etc/profile && go version | grep linux/amd64
   args:
     executable: /bin/bash

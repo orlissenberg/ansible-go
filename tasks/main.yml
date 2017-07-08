@@ -5,7 +5,8 @@
   when: go_install_go
 
 # Install GNOME Desktop
-- apt: name=gnome state=present update_cache=yes
+- name: Install gnome desktop
+  apt: name=gnome state=present update_cache=yes
   when: go_install_gnome
 
 # Atom
@@ -17,8 +18,10 @@
 
 - name: Change GNOME favorites
   shell: dconf write /org/gnome/shell/favorite-apps "['iceweasel.desktop', 'org.gnome.Nautilus.desktop', 'atom.desktop', 'gnome-terminal.desktop']"
+  when: go_configure_gnome
 
-- copy:
+- name: Copy background image
+  copy:
     src: debian.jpg
     dest: ~/debian.jpg
     owner: "{{ item }}"
@@ -28,13 +31,14 @@
   with_items: "{{ go_gnome_users }}"
   when: go_configure_gnome
 
-
-- shell: gsettings set org.gnome.desktop.background picture-uri file:///home/{{ item }}/debian.jpg
+- name: Set background image
+  shell: gsettings set org.gnome.desktop.background picture-uri file:///home/{{ item }}/debian.jpg
   become_user: "{{ item }}"
   with_items: "{{ go_gnome_users }}"
   when: go_configure_gnome
 
-- shell: gsettings set org.gnome.desktop.screensaver picture-uri file:///home/{{ item }}/debian.jpg
+- name: Set lock screen background
+  shell: gsettings set org.gnome.desktop.screensaver picture-uri file:///home/{{ item }}/debian.jpg
   become_user: "{{ item }}"
   with_items: "{{ go_gnome_users }}"
   when: go_configure_gnome
