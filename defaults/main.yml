@@ -17,9 +17,11 @@ go_install_atom: false
 go_atom_version: 1.18.0
 go_atom_packages:
   - atom-beautify
+  - atom-build                # https://atom.io/packages/build
   - busy-signal
   - file-icons
   - go-debug
+  - go-outline
   - go-plus
   - go-signature-statusbar
   - hyperclick
@@ -30,5 +32,7 @@ go_atom_packages:
   - minimap
   - platformio-ide-terminal
   - tabs-to-spaces
+#  - api-workbench
 #  - vim-mode-plus
+
 go_atom_users: []
